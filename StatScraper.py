@@ -7,7 +7,8 @@ try:
 except ImportError:  
     print("No module named 'google' found") 
   
-query = "site:ufcstats.com jon jones"
+#query = "site:ufcstats.com jon jones"
+query = "site:ufcstats.com conor mcgregor"
 
 for j in search(query, tld="co.in", num=10, stop=1, pause=2): 
     url = j
@@ -15,64 +16,48 @@ for j in search(query, tld="co.in", num=10, stop=1, pause=2):
 page = urllib2.urlopen(url)
 soup = BeautifulSoup(page, 'html.parser')
 
+allStatsNamesAndNums = []
 
+name = str(soup.h2.span.string).strip()
+allStatsNamesAndNums.append(["Name", name])
+nick = str(soup.p.string).strip()
+allStatsNamesAndNums.append(["Nick", nick])
 
-ul = soup.find_all('ul') #this might not be a list, probably not. But has a length of four
-
-#prevLi = ul[0].li # or: liOne = ul[0].find_next('li'). Height
-#data = str(prevLi.contents[2]).strip()
-#print(data)
-
-i = 0
-allStatsNums = [] 
-
-for j in ul: #Weight, Reach, Stance, DOB. Not iterating through all indexes in ul, just ul[0]. J is individual ul groups. This actually goes to one extra ul group but fails all if statements so nothing extra gets added
-    stats = []
-    prevLi = ul[i].li #I think this is the first li group in each ul[] index
-    data = str(prevLi.contents[2]).strip()
-    if data: #only add to list is string is not empty. This avoids adding empty string that was occuring before
-        stats.append(data)
-    for m in j: #This should be the right structure but need to add stuff in between nested loops so it works. M allows us to acccess individual li groups
-        nextLi = prevLi.find_next_sibling('li')
-        if nextLi is None:
-            break
-        data = str(nextLi.contents[2]).strip()
-        if not data: #prevents empty string from being added to the list
-            continue
-        stats.append(data)
-        prevLi = nextLi
-    i = i+1
-    if stats: #prevents a empty list from being added to the list of allStatsNums
-        allStatsNums.append(stats)
-
-print(allStatsNums) #Holy shit everything is working!
+ul = soup.find_all('ul')
 
 i = 0
-allStatsNames = []
-
 for j in ul: 
-    names = []
     prevLi = ul[i].li 
-    name = None
+    name = None #rename variable
     if prevLi.i and prevLi.i.string:
         name = str(prevLi.i.string).strip()
-        names.append(name)
-    for m in j: 
+
+    data = str(prevLi.contents[2]).strip()
+    if name and data: 
+        allStatsNamesAndNums.append([name,data])
+
+    for m in j:
         nextLi = prevLi.find_next_sibling('li')
-        if nextLi is None or nextLi.i is None: #nextLi.i is accounting for the last li.i group that has unwanted information like "Fighters"
+        if nextLi is None or nextLi.i is None: #nextLi.i is accounting for the last li.i group that has unwanted information like "Fighters". Also if there is name for a stat then there must be a number for it so just need to ensure the name exists
             break
         name = str(nextLi.i.string).strip()
-        if not name: 
+        data = str(nextLi.contents[2]).strip()
+        #print(name + "," + data)
+        if not name and data: 
             continue
-        names.append(name)
+
+        allStatsNamesAndNums.append([name,data]) 
+
         prevLi = nextLi
     i = i+1
-    if names:
-        allStatsNames.append(names)
 
-print(allStatsNames)  
+#print(allStatsNamesAndNums)
 
-#inside each ul index we want all of the li's
-#then we move onto the next ul index
+statDictionary = {stat[0]: stat[1] for stat in allStatsNamesAndNums}
+#print(statDictionary)
+
+jsonStats = json.dumps(statDictionary)
+print(jsonStats)
+    
 
 
