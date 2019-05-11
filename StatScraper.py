@@ -51,13 +51,8 @@ for j in ul:
         prevLi = nextLi
     i = i+1
 
-#print(allStatsNamesAndNums)
+statDictionary = {stat[0]: stat[1] for stat in allStatsNamesAndNums} #creating python dictionary from list of data
 
-statDictionary = {stat[0]: stat[1] for stat in allStatsNamesAndNums}
-#print(statDictionary)
-
-jsonStats = json.dumps(statDictionary)
+jsonStats = json.dumps(statDictionary, indent=4) #create json object from python dictionary
 print(jsonStats)
-    
-
 
