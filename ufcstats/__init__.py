@@ -1,0 +1,1 @@
+from .ufcstats import getStats
