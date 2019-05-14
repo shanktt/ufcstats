@@ -1,19 +1,19 @@
-#UFCStats: A Python API for fighers stats on ufcstats.com
+# UFCStats: A Python API for fighers stats on ufcstats.com
 
 `ufcstats` provides a simple api to retrieve stats from figherse pages on ufcstats.com 
 
-##Requirements
+## Requirements
 
 This package requires [beautifulsoup4](https://pypi.org/project/beautifulsoup4/) and [urllib3](https://pypi.org/project/urllib3/)
 
-##Installation
+## Installation
 Use `pip` to install the package from PyPi:
 
 ```bash
 pip install ufcstats
 ```
 
-##Usage
+## Usage
 Import the package and retrieve stats for a certain fighter:
 
 ```python
