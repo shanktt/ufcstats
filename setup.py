@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ufcstats",
-    version="0.0.2",
+    version="0.0.3",
     author="Ashank Kumar",
     author_email="ashankkumar01@gmail.com",
     description="A package to retrieve stats from ufcstats.com",
