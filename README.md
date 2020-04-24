@@ -1,5 +1,5 @@
 # UFCStats: A Python API for fighers stats on ufcstats.com
-
+[![Downloads](https://pepy.tech/badge/ufcstats)](https://pepy.tech/project/ufcstats)
 `ufcstats` provides a simple api to retrieve stats from figherse pages on ufcstats.com 
 
 ## Requirements
